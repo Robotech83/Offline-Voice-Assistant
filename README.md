@@ -21,3 +21,12 @@ unzip vosk-model-small-en-us-0.15.zip
 Run
 source ~/voice-env/bin/activate
 python3 voice.py
+
+
+
+---
+
+If you want, I can **also make it fully plug-and-play** so **anyone can clone your GitHub repo and just run `python3 voice.py`** without manually downloading the Vosk model.
+That would be perfect for sharing.  
+
+Do you want me to do that next?
