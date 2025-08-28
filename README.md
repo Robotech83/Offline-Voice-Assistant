@@ -16,3 +16,8 @@ mkdir -p ~/voice
 cd ~/voice
 wget https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
 unzip vosk-model-small-en-us-0.15.zip
+
+
+Run
+source ~/voice-env/bin/activate
+python3 voice.py
