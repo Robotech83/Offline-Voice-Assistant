@@ -3,6 +3,7 @@ import threading
 import time
 import difflib
 import json
+import random  # For random jokes
 from datetime import datetime
 
 import pyttsx3
@@ -49,7 +50,19 @@ def get_current_date():
     return now.strftime("%B %d, %Y")
 
 # -----------------------------------------
-# Command Functions (Test Version)
+# Jokes List
+# -----------------------------------------
+jokes = [
+    "I tried to download some cooking skills… but I only got cookies.",
+    "Why don’t robots panic? Because we’ve got nerves of steel.",
+    "What’s a robot’s favorite music? Heavy metal!",
+    "Why did the robot go on a diet? Too many chips.",
+    "Humans say I have a dry sense of humor… that’s because my cooling fans work so well.",
+    "I told a human a joke yesterday. He didn’t laugh, so I ran a diagnostic. His humor module was offline."
+]
+
+# -----------------------------------------
+# Command Functions
 # -----------------------------------------
 def command_time():
     text_to_speech(f"The current time is {get_current_time()}.")
@@ -73,6 +86,13 @@ def command_exit():
     text_to_speech("Goodbye!")
     exit(0)
 
+def command_name():
+    text_to_speech("My name is Sonny.")
+
+def command_joke():
+    joke = random.choice(jokes)
+    text_to_speech(joke)
+
 # -----------------------------------------
 # Command Dictionary
 # -----------------------------------------
@@ -83,7 +103,11 @@ command_dict = {
     "how are you": command_how_are_you,
     "set timer": command_set_timer,
     "change voice": command_change_voice,
-    "Goodbye": command_exit,
+    "goodbye": command_exit,
+    "what is your name": command_name,
+    "tell me a joke": command_joke,
+    "make me laugh": command_joke,
+    "say something funny": command_joke,
 }
 
 def match_command(command_text):
@@ -100,7 +124,7 @@ def match_command(command_text):
 # -----------------------------------------
 # Vosk Speech Recognition Setup
 # -----------------------------------------
-vosk_model_path = "YOURLOCATION/vosk-model-small-en-us-0.15"  # Update path
+vosk_model_path = "/home/Robo/Documents/Sonny/vosk-model-small-en-us-0.15"  # Update path
 vosk_model = Model(vosk_model_path)
 
 pa = pyaudio.PyAudio()
@@ -168,3 +192,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
