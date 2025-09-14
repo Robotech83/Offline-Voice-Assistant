@@ -145,5 +145,3 @@ Wake word → `Hello` or `Sonny`
 - Adjust **audio thresholds** in `speak_igbo()` for smoother lipsync.
     
 - Debug logs are enabled (`logging.INFO`) by default.
-✅ Offline Speech Recognition – Vosk
-
