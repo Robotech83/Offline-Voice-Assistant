@@ -21,20 +21,23 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 engine = pyttsx3.init()
 engine.setProperty("rate", 150)
 engine.setProperty("volume", 1.0)
-voices = engine.getProperty('voices')
+voices = engine.getProperty("voices")
 current_voice_index = 0
+
+# Prevent overlap between speech + listening
+speaking_lock = threading.Lock()
 
 def text_to_speech(text):
     logging.info(f"Speaking: {text}")
-    engine.say(text)
-    engine.runAndWait()
+    with speaking_lock:
+        engine.say(text)
+        engine.runAndWait()
 
 def change_voice():
     global current_voice_index
     current_voice_index = (current_voice_index + 1) % len(voices)
-    engine.setProperty('voice', voices[current_voice_index].id)
+    engine.setProperty("voice", voices[current_voice_index].id)
     text_to_speech("Voice changed.")
-    logging.info("Voice changed.")
 
 # -----------------------------------------
 # Utility Functions
@@ -58,13 +61,13 @@ jokes = [
 ]
 
 creator_responses = [
-    "I was created by my builder, Kosi. Without them, I’d just be a box of parts.",
-    "My maker is Kosi. They gave me life… well, as close as a robot can get.",
-    "Technically, I was designed by Gaël Langevin as InMoov. But the real magic was done by Kosi.",
-    "I was made by Kosi. If you don’t like how I behave, take it up with them!",
-    "My creator is Kosi. Don’t worry, they programmed me to be nice… I think.",
-    "I was brought into existence by Kosi. Some call them my maker… I call them my human.",
-    "I was assembled and programmed by Kosi. You could say they’re my Dr. Frankenstein—but less spooky."
+    "I was created by my builder, Robotech. Without them, I’d just be a box of parts.",
+    "My maker is Robotech. They gave me life… well, as close as a robot can get.",
+    "Technically, I was designed by Gaël Langevin as InMoov. But the real magic was done by Robotech.",
+    "I was made by Robotech. If you don’t like how I behave, take it up with them!",
+    "My creator is Robotech. Don’t worry, they programmed me to be nice… I think.",
+    "I was brought into existence by Robotech. Some call them my maker… I call them my human.",
+    "I was assembled and programmed by Robotech. You could say they’re my Dr. Frankenstein—but less spooky."
 ]
 
 greetings = [
@@ -92,11 +95,11 @@ goodbyes = [
 ]
 
 name_responses = [
-    "My name is Uche X.",
-    "I am Uche X, your humanoid assistant.",
-    "They call me Uche X. Nice to meet you!",
-    "I go by Uche X, but I answer to friend too.",
-    "Uche X is my name, robotics is my game."
+    "My name is Sonny.",
+    "I am Sonny, your humanoid assistant.",
+    "They call me Sonny. Nice to meet you!",
+    "I go by Sonny, but I answer to friend too.",
+    "Sonny is my name, robotics is my game."
 ]
 
 # -----------------------------------------
@@ -122,7 +125,7 @@ def command_change_voice():
 
 def command_exit():
     text_to_speech(random.choice(goodbyes))
-    exit(0)
+    raise SystemExit
 
 def command_name():
     text_to_speech(random.choice(name_responses))
@@ -154,30 +157,29 @@ command_dict = {
 }
 
 # -----------------------------------------
-# Text Cleaning for Better Recognition
+# Text Cleaning & Matching
 # -----------------------------------------
 def clean_command(text):
     text = text.lower()
-    fillers = ["please", "can you", "could you", "would you", "hey", "Uche X", "um"]
+    fillers = ["please", "can you", "could you", "would you", "hey", "sonny", "um"]
     for f in fillers:
         text = text.replace(f, "")
-    return text.strip()
+    return " ".join(text.split()).strip()
 
 def match_command(command_text):
     command_text = clean_command(command_text)
     keys = list(command_dict.keys())
     matches = difflib.get_close_matches(command_text, keys, n=1, cutoff=0.65)
     if matches:
-        logging.info(f"Matched command '{command_text}' to '{matches[0]}'")
+        logging.info(f"Matched '{command_text}' -> '{matches[0]}'")
         return command_dict[matches[0]]
-    else:
-        logging.info(f"No matching command found for '{command_text}'")
-        return None
+    logging.info(f"No matching command for '{command_text}'")
+    return None
 
 # -----------------------------------------
-# Vosk Speech Recognition Setup with Custom Grammar
+# Vosk Speech Recognition Setup
 # -----------------------------------------
-vosk_model_path = "Your path Here"
+vosk_model_path = "/home/Robo/Documents/Sonny/vosk-model-small-en-us-0.15"
 vosk_model = Model(vosk_model_path)
 
 pa = pyaudio.PyAudio()
@@ -185,67 +187,99 @@ stream = pa.open(format=pyaudio.paInt16, channels=1, rate=16000,
                  input=True, frames_per_buffer=4096)
 stream.start_stream()
 
-# Build grammar from command dictionary
-command_phrases = [clean_command(cmd) for cmd in command_dict.keys()]
+# Grammar helps Vosk focus on your known commands
+command_phrases = [clean_command(cmd) for cmd in command_dict.keys()] + ["cancel"]
 grammar = json.dumps(command_phrases)
 
-def listen_for_phrase_vosk(prompt="Listening...", timeout=5):
-    text_to_speech(prompt)
-    start_time = time.time()
+def listen_for_phrase_vosk(prompt="Listening...", timeout=6):
+    # IMPORTANT: don't speak the prompt (prevents mic feedback)
+    logging.info(prompt)
+
+    # Wait until we are not currently speaking
+    while speaking_lock.locked():
+        time.sleep(0.05)
+
     rec = KaldiRecognizer(vosk_model, 16000, grammar)
     result_text = ""
-    while True:
-        if time.time() - start_time > timeout:
-            break
+    start_time = time.time()
+
+    while time.time() - start_time < timeout:
         data = stream.read(4096, exception_on_overflow=False)
         if rec.AcceptWaveform(data):
             result_dict = json.loads(rec.Result())
             result_text = result_dict.get("text", "")
             break
+
     return result_text
 
-def listen_for_wake_word_vosk(timeout=5):
-    result_text = listen_for_phrase_vosk("Listening for wake word", timeout)
-    logging.info(f"Heard for wake word: {result_text}")
-    return "hello" in result_text.lower()
+def listen_for_wake_word_vosk(timeout=12):
+    heard = listen_for_phrase_vosk("Listening for wake word...", timeout)
+    logging.info(f"Heard for wake: {heard}")
+    return "hello" in heard.lower()
 
-def listen_for_command_vosk(timeout=5):
-    result_text = listen_for_phrase_vosk("Listening for command", timeout)
-    logging.info(f"Heard command: {result_text}")
-    return result_text
+def listen_for_command_vosk(timeout=12):
+    heard = listen_for_phrase_vosk("Listening for command...", timeout)
+    logging.info(f"Heard command: {heard}")
+    return heard
 
 # -----------------------------------------
 # Command Processing Loop
 # -----------------------------------------
 def process_commands():
     while True:
-        if listen_for_wake_word_vosk(timeout=5):
+        if listen_for_wake_word_vosk(timeout=30):
             text_to_speech("How can I help you?")
+
+            fail_count = 0
+
             while True:
-                command_text = listen_for_command_vosk(timeout=5)
-                if not command_text:
+                cmd_text = listen_for_command_vosk(timeout=30)
+
+                # Nothing heard
+                if not cmd_text:
+                    fail_count += 1
+                    if fail_count >= 3:
+                        text_to_speech("I did not hear anything.")
+                        fail_count = 0
                     continue
-                if "cancel" in command_text.lower():
+
+                fail_count = 0
+
+                if "cancel" in cmd_text.lower():
                     text_to_speech("Exiting command mode.")
                     break
-                command_func = match_command(command_text)
-                if command_func:
-                    command_func()
+
+                func = match_command(cmd_text)
+                if func:
+                    try:
+                        func()
+                    except SystemExit:
+                        return
                 else:
-                    text_to_speech("I did not understand that command.")
+                    text_to_speech("Can you repeat that?")
+
 
 # -----------------------------------------
-# Main Entry Point
+# Main
 # -----------------------------------------
 def main():
-    command_thread = threading.Thread(target=process_commands, daemon=True)
-    command_thread.start()
+    thread = threading.Thread(target=process_commands, daemon=True)
+    thread.start()
+
     try:
-        while True:
-            time.sleep(1)
+        while thread.is_alive():
+            time.sleep(0.5)
     except KeyboardInterrupt:
         text_to_speech("Shutting down. Goodbye!")
         logging.info("Assistant shutdown via KeyboardInterrupt.")
+    finally:
+        try:
+            stream.stop_stream()
+            stream.close()
+            pa.terminate()
+        except Exception:
+            pass
 
 if __name__ == "__main__":
     main()
+
