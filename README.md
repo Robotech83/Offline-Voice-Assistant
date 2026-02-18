@@ -81,14 +81,15 @@ Head tilt
 	pip install -r requirements.txt
 
 If installing manually:
+
 	pip install vosk pyaudio pyserial opencv-python gTTS pydub simpleaudio
 
 📥 Install Vosk Model
 
-mkdir -p ~/Documents/Sonny
-cd ~/Documents/Sonny
-wget https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
-unzip vosk-model-small-en-us-0.15.zip
+	mkdir -p ~/Documents/Sonny
+	cd ~/Documents/Sonny
+	wget https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
+	unzip vosk-model-small-en-us-0.15.zip
 
 🚀 Running Sonny
 	Connect Arduino Mega via USB (/dev/ttyACM0 default)
