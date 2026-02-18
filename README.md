@@ -1,145 +1,159 @@
-🤖 Sonny — Offline Voice + Vision Humanoid Robot (InMoov)
+# 🤖 Sonny — Offline Voice-Controlled Humanoid Robot (InMoov)
 
-Sonny is a fully offline-capable humanoid robot assistant built on an InMoov platform, powered by a Raspberry Pi 4 and controlled through an Arduino Mega.
+Sonny is an InMoov humanoid robot assistant powered by a Raspberry Pi 4 and controlled through an Arduino Mega.
 
-This project integrates speech recognition, computer vision, servo control, and multilingual speech synthesis into a single real-time robotic system.
+This project integrates offline speech recognition, multilingual speech synthesis, and real-time servo control into a single embedded robotics system.
 
-🧠 System Architecture
+---
 
-Main Controller
+## 🧠 System Overview
 
-Raspberry Pi 4 (Debian Bookworm recommended)
+**Main Controller**
+- Raspberry Pi 4 (Debian Bookworm recommended)
 
-Motion Controller
+**Motion Controller**
+- Arduino Mega 2560 (serial communication)
 
-Arduino Mega 2560 (serial communication)
+**Speech Recognition**
+- Vosk (fully offline speech-to-text)
 
-Vision
+**Speech Synthesis**
+- eSpeak-NG (English with phoneme-based lip sync)
+- gTTS (Igbo with amplitude-based lip sync)
 
-OpenCV (Haar cascade face detection)
+---
 
-Real-time head pan/tilt tracking
-
-Speech Recognition
-
-Vosk (offline speech-to-text)
-
-Speech Synthesis
-
-eSpeak-NG (English phoneme-driven lip sync)
-
-gTTS (Igbo support with amplitude-based lip sync)
-
-🎯 Capabilities
+## 🎯 Current Capabilities
 
 Sonny can:
 
-👀 Track human faces and follow them with head movement
+- 🗣️ Respond to voice commands after wake word activation
+- 💬 Speak in English or Igbo
+- 😄 Tell jokes and randomized responses
+- 🧠 Answer identity and creator questions
+- 🎮 Control servos for:
+  - Mouth (lip sync)
+  - Head pan
+  - Head tilt
 
-🗣️ Respond to voice commands after wake word activation
+---
 
-💬 Speak in English or Igbo
+## 📦 Core Features
 
-😄 Tell jokes and randomized responses
+- ✅ Fully offline speech recognition (Vosk)
+- ✅ Multilingual speech system
+- ✅ Serial-based servo control via Arduino Mega (`/dev/ttyACM0`)
+- ✅ Randomized personality responses
+- ✅ Extensible `command_dict` for adding new commands
 
-🧠 Answer identity and creator questions
+---
 
-🎮 Control servos for:
+## 📂 Project Structure
+.
+├── Control_Sonny.py # Main integrated script (voice + motion)
+├── vosk-model-small-en-us-0.15/ # Offline Vosk model
+├── requirements.txt # Python dependencies
+└── README.md # Documentation
 
-Mouth (lip-sync)
 
-Head pan
+---
 
-Head tilt
+## ⚙️ Requirements
 
-📦 Core Features
+### 🔌 Hardware
 
-✅ Fully offline speech recognition (Vosk)
+- Raspberry Pi 4
+- Arduino Mega 2560
+- USB microphone
+- Speaker
+- Servos (mouth, pan, tilt)
 
-✅ Real-time face tracking
+---
 
-✅ Serial-based servo control via Arduino Mega (/dev/ttyACM0)
+### 💻 System Packages (Raspberry Pi)
 
-✅ Multilingual speech system
-
-✅ Extensible command_dict for adding new commands
-
-✅ Randomized personality responses
-
-⚙️ Requirements
-	🔌 Hardware
-			Raspberry Pi 4
-			Arduino Mega 2560
-			USB Webcam or Pi Camera
-			Servos (mouth, pan, tilt)
-
-💻 System Packages (Raspberry Pi)
 	sudo apt update
 	sudo apt install -y python3-opencv espeak-ng portaudio19-dev ffmpeg
 
-🐍 Python Dependencies
+---
+
+### 🐍 Python Dependencies
 	pip install -r requirements.txt
-
 If installing manually:
-
 	pip install vosk pyaudio pyserial opencv-python gTTS pydub simpleaudio
 
-📥 Install Vosk Model
 
-	mkdir -p ~/Documents/Sonny
-	cd ~/Documents/Sonny
-	wget https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
-	unzip vosk-model-small-en-us-0.15.zip
+---
 
-🚀 Running Sonny
-	Connect Arduino Mega via USB (/dev/ttyACM0 default)
-	Connect camera
-	Ensure Vosk model is installed
+## 📥 Install Vosk Model
+- mkdir -p ~/Documents/Sonny
+- cd ~/Documents/Sonny
+- wget https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
+- unzip vosk-model-small-en-us-0.15.zip
+  
+---
 
-Run:
-	python3 Control_Sonny.py
+## 🚀 Running Sonny
 
-Say:
-	Hello or Sonny
+1. Connect Arduino Mega via USB (`/dev/ttyACM0` default)
+2. Ensure microphone and speaker are connected
+3. Make sure Vosk model is installed
+4. Run: python3 Control_Sonny.py
+5. Say: Hello or Sonny
+
+
 to activate.
 
-🎙️ Available Voice Commands
-		Wake Word - Hello or Sonny
+---
 
-🕒 General
-	"What time is it?"
-	"What is today’s date?"
-	"Tell me a joke"
-	"Make me laugh"
-	"What is your name?"
-	"Who made you?"
+## 🎙️ Available Voice Commands
 
-🤖 Status / Motion
-	"How are you?"
-	"Center head"
+### Wake Word
+- Hello
+- Sonny
 
-🌍 Language Switching
-	"Switch to Igbo"
-	"Speak Igbo"
-	"Switch to English"
-	"Speak English"
+### General
+- What time is it?
+- What is today’s date?
+- Tell me a joke
+- Make me laugh
+- What is your name?
+- Who made you?
 
-🔚 Exit
-	"Goodbye"
+### Status / Motion
+- How are you?
+- Center head
 
-🛠️ Configuration Notes
+### Language Switching
+- Switch to Igbo
+- Speak Igbo
+- Switch to English
+- Speak English
 
-If encodings.pickle not found appears, disable face recognition or generate encodings.
-Tune servo angles in:
-	move_head()
-	mouth_open()
-	mouth_close()
+### Exit
+- Goodbye
 
-Adjust amplitude thresholds in speak_igbo() for smoother lip-sync.
+---
 
-Logging level defaults to logging.INFO.
+## 🛠️ Configuration Notes
 
-🎥 Demo (Add This Next)
+- Servo angles in `move_head()`, `mouth_open()`, and `mouth_close()` must be tuned for your robot.
+- Adjust amplitude thresholds in `speak_igbo()` for smoother lip sync.
+- Logging level defaults to `logging.INFO`.
+
+---
+
+## 🎥 Demo (Recommended Next Step)
+
+Add:
+- Screenshot of Sonny
+- Screenshot of terminal running
+- Short 20–40 second demo video
+
+This greatly improves project presentation.
+
+---
 
 
-Screenshot of terminal running
+
+
