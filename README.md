@@ -1,5 +1,5 @@
 
-# 🤖 Sonny – InMoov Robot AI Assistant
+# 🤖 Sonny – InMoov Robot Offline Assistant
 
 This project runs **Sonny**, an InMoov humanoid robot powered by:
 
