@@ -1,7 +1,30 @@
-vosk
-opencv-python
-numpy
-pyserial
-gTTS
-pygame
-espeak-ng
+# Core Speech Recognition
+Python 3.10+ recommended
+vosk==0.3.45
+pyaudio==0.2.13
+
+# Serial Communication (Arduino Mega)
+pyserial==3.5
+
+# Computer Vision (optional - only if OpenCV is used in script)
+opencv-python==4.9.0.80
+
+# Speech Synthesis
+gTTS==2.5.1
+pydub==0.25.1
+simpleaudio==1.0.4
+
+# Utilities
+numpy==1.26.4
+
+
+🧠 Important Note for Raspberry Pi
+
+On Raspberry Pi OS, pyaudio often requires this system package first:
+
+sudo apt install portaudio19-dev
+
+
+And OpenCV is usually better installed via apt:
+
+sudo apt install python3-opencv
