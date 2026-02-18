@@ -1,3 +1,71 @@
+🤖 Sonny — Offline Voice + Vision Humanoid Robot (InMoov)
+
+Sonny is a fully offline-capable humanoid robot assistant built on an InMoov platform, powered by a Raspberry Pi 4 and controlled through an Arduino Mega.
+
+This project integrates speech recognition, computer vision, servo control, and multilingual speech synthesis into a single real-time robotic system.
+
+🧠 System Architecture
+
+Main Controller
+
+Raspberry Pi 4 (Debian Bookworm recommended)
+
+Motion Controller
+
+Arduino Mega 2560 (serial communication)
+
+Vision
+
+OpenCV (Haar cascade face detection)
+
+Real-time head pan/tilt tracking
+
+Speech Recognition
+
+Vosk (offline speech-to-text)
+
+Speech Synthesis
+
+eSpeak-NG (English phoneme-driven lip sync)
+
+gTTS (Igbo support with amplitude-based lip sync)
+
+🎯 Capabilities
+
+Sonny can:
+
+👀 Track human faces and follow them with head movement
+
+🗣️ Respond to voice commands after wake word activation
+
+💬 Speak in English or Igbo
+
+😄 Tell jokes and randomized responses
+
+🧠 Answer identity and creator questions
+
+🎮 Control servos for:
+
+Mouth (lip-sync)
+
+Head pan
+
+Head tilt
+
+📦 Core Features
+
+✅ Fully offline speech recognition (Vosk)
+
+✅ Real-time face tracking
+
+✅ Serial-based servo control via Arduino Mega (/dev/ttyACM0)
+
+✅ Multilingual speech system
+
+✅ Extensible command_dict for adding new commands
+
+✅ Randomized personality responses
+
 ⚙️ Requirements
 	🔌 Hardware
 			Raspberry Pi 4
