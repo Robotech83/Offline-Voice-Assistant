@@ -1,0 +1,7 @@
+vosk
+opencv-python
+numpy
+pyserial
+gTTS
+pygame
+espeak-ng
