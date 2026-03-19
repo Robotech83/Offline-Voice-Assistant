@@ -1,159 +1,220 @@
-# 🤖 Sonny — Offline Voice-Controlled Humanoid Robot (InMoov)
+# 🤖 Sonny OS — Offline Humanoid Robotics Platform
 
-Sonny is an InMoov humanoid robot assistant powered by a Raspberry Pi 4 and controlled through an Arduino Mega.
+> A fully offline humanoid robotics system built on Raspberry Pi and Arduino, combining voice, vision, memory, and motion into a modular AI-powered robot.
 
-This project integrates offline speech recognition, multilingual speech synthesis, and real-time servo control into a single embedded robotics system.
+![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
+![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-4-red?logo=raspberrypi)
+![Offline AI](https://img.shields.io/badge/AI-Offline-success)
+![Computer Vision](https://img.shields.io/badge/Vision-OpenCV-green?logo=opencv)
+![Speech Recognition](https://img.shields.io/badge/Speech-Vosk-yellow)
+![Hardware](https://img.shields.io/badge/Hardware-Arduino-blue?logo=arduino)
+![Status](https://img.shields.io/badge/Status-Active%20Development-orange)
+![Platform](https://img.shields.io/badge/Platform-Robotics-black)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
----
 
-## 🧠 System Overview
+ ## 🌐 Portfolio
 
-**Main Controller**
-- Raspberry Pi 4 (Debian Bookworm recommended)
+Explore the full Sonny OS project, including visuals, breakdowns, and future development:
 
-**Motion Controller**
-- Arduino Mega 2560 (serial communication)
-
-**Speech Recognition**
-- Vosk (fully offline speech-to-text)
-
-**Speech Synthesis**
-- eSpeak-NG (English with phoneme-based lip sync)
-- gTTS (Igbo with amplitude-based lip sync)
+[🚀 View Full Sonny OS Portfolio](https://robotech83.github.io/Robotics_Portfolio/)
 
 ---
 
-## 🎯 Current Capabilities
+## 🚀 Overview
 
-Sonny can:
+**Sonny OS** is an offline robotics platform designed to demonstrate real-world AI integration without relying on cloud services.
 
-- 🗣️ Respond to voice commands after wake word activation
-- 💬 Speak in English or Igbo
-- 😄 Tell jokes and randomized responses
-- 🧠 Answer identity and creator questions
-- 🎮 Control servos for:
-  - Mouth (lip sync)
-  - Head pan
-  - Head tilt
+The system combines:
 
----
+* 🎤 Voice interaction (offline)
+* 👁️ Computer vision & facial recognition
+* 🧠 Persistent memory of people
+* ⚙️ Hardware control via Arduino
+* 🤖 Modular architecture for expansion
 
-## 📦 Core Features
-
-- ✅ Fully offline speech recognition (Vosk)
-- ✅ Multilingual speech system
-- ✅ Serial-based servo control via Arduino Mega (`/dev/ttyACM0`)
-- ✅ Randomized personality responses
-- ✅ Extensible `command_dict` for adding new commands
+Sonny is actively developed as a **live demo robot** for Maker Labs and portfolio presentation, showcasing embedded systems, robotics, and AI working together in real time.
 
 ---
 
-## 📂 Project Structure
-.
-├── Control_Sonny.py # Main integrated script (voice + motion)
-├── vosk-model-small-en-us-0.15/ # Offline Vosk model
-├── requirements.txt # Python dependencies
-└── README.md # Documentation
+## 🧠 What Sonny Can Do
 
-
----
-
-## ⚙️ Requirements
-
-### 🔌 Hardware
-
-- Raspberry Pi 4
-- Arduino Mega 2560
-- USB microphone
-- Speaker
-- Servos (mouth, pan, tilt)
+* Recognize faces using on-device processing
+* Remember people between sessions
+* Greet known users and interact with new ones
+* Ask permission before storing new identities
+* Speak responses using offline TTS
+* Process voice commands without internet
+* Control physical hardware (servos, future motion systems)
 
 ---
 
-### 💻 System Packages (Raspberry Pi)
+## 🏗️ System Architecture
 
-	sudo apt update
-	sudo apt install -y python3-opencv espeak-ng portaudio19-dev ffmpeg
+### 🧩 Core Components
 
----
+* **Sonny Core (Raspberry Pi 4)**
 
-### 🐍 Python Dependencies
-	pip install -r requirements.txt
-If installing manually:
-	pip install vosk pyaudio pyserial opencv-python gTTS pydub simpleaudio
+  * Handles vision, voice, and decision-making
 
+* **Arduino Mega**
 
----
+  * Controls servos and physical movement
 
-## 📥 Install Vosk Model
-- mkdir -p ~/Documents/Sonny
-- cd ~/Documents/Sonny
-- wget https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
-- unzip vosk-model-small-en-us-0.15.zip
-  
----
+* **Vision System**
 
-## 🚀 Running Sonny
+  * Face detection + recognition
+  * Event-driven communication with core system
 
-1. Connect Arduino Mega via USB (`/dev/ttyACM0` default)
-2. Ensure microphone and speaker are connected
-3. Make sure Vosk model is installed
-4. Run: python3 Control_Sonny.py
-5. Say: Hello or Sonny
+* **Voice System**
 
+  * Wake word → speech recognition → response
 
-to activate.
+* **Memory System**
+
+  * Stores known users and interaction data
 
 ---
 
-## 🎙️ Available Voice Commands
+### 📁 Project Structure (Planned / Evolving)
 
-### Wake Word
-- Hello
-- Sonny
+```
+SonnyData/
+│
+├── vision/
+│   ├── encodings.pickle
+│   └── enroll_face.jpg
+│
+├── sonny_brain/
+│   ├── inbox/
+│   │   ├── vision_event.json
+│   │   ├── unknown_face.json
+│   │   ├── enroll_request.json
+│   │   └── enroll_result.json
+│   │
+│   └── people/
+│       └── [person].json
+```
 
-### General
-- What time is it?
-- What is today’s date?
-- Tell me a joke
-- Make me laugh
-- What is your name?
-- Who made you?
-
-### Status / Motion
-- How are you?
-- Center head
-
-### Language Switching
-- Switch to Igbo
-- Speak Igbo
-- Switch to English
-- Speak English
-
-### Exit
-- Goodbye
+> ⚡ Sonny uses a lightweight **event-based file system** to allow subsystems to communicate without tight coupling.
 
 ---
 
-## 🛠️ Configuration Notes
+## 🧰 Tech Stack
 
-- Servo angles in `move_head()`, `mouth_open()`, and `mouth_close()` must be tuned for your robot.
-- Adjust amplitude thresholds in `speak_igbo()` for smoother lip sync.
-- Logging level defaults to `logging.INFO`.
+### 🖥️ Software
+
+* Python
+* OpenCV
+* face_recognition
+* Vosk (offline speech recognition)
+* pyttsx3 (offline text-to-speech)
+* PyAudio
+
+### ⚙️ Hardware
+
+* Raspberry Pi 4
+* Arduino Mega 2560
+* Pi Camera
+* USB Microphone
+* Speaker
+* SG90 Servos (current)
+* MG996R Servos (planned upgrades)
 
 ---
 
-## 🎥 Demo (Recommended Next Step)
+## 🎯 Project Goals
 
-Add:
-- Screenshot of Sonny
-- Screenshot of terminal running
-- Short 20–40 second demo video
+* Build a **fully offline humanoid AI system**
+* Demonstrate **real-world robotics integration**
+* Create a **modular robotics platform (Sonny OS)**
+* Showcase skills in:
 
-This greatly improves project presentation.
+  * Embedded systems
+  * Computer vision
+  * AI interaction
+  * Hardware control
 
 ---
 
+## 🧪 Current Status
 
+🟡 Active Development
 
+### 🔧 Current Focus
 
+* Improving facial recognition accuracy
+* Fixing name parsing issues (👀 yes… *Penelope*)
+* Stabilizing memory + enrollment system
+* Integrating voice + vision events
+* Adding servo-driven tracking (face + mouth)
+
+---
+
+## 🧠 Example Interaction
+
+```
+Sonny: "Hello! I don’t recognize you. Do I have your permission to remember you?"
+
+User: "Yes"
+
+Sonny: "Nice to meet you. I’ll remember you for next time."
+```
+
+---
+
+## 🎥 Demo (Coming Soon)
+
+* Maker Lab live demo footage
+* Facial recognition + memory interaction
+* Voice-controlled conversation
+* Servo-based movement
+
+---
+
+## 🔮 Future Roadmap
+
+* 🎭 Facial tracking with servo control
+* 🗣️ More natural conversation flow
+* 🧍 Full humanoid movement (InMoov integration)
+* 🧠 Expanded memory system
+* 🌐 Local dashboard for monitoring (Sonny Control Hub)
+* 🎮 Demo modes (Villain Mode 😈, Demo Mode, Normal Mode)
+
+---
+
+## 🧑‍💻 Creator
+
+**Robotech83**
+Robotics & Embedded Systems Developer
+
+Building real-world AI systems with a focus on:
+
+* Offline capability
+* Hardware integration
+* Practical robotics
+
+---
+
+## ⭐ Why This Project Matters
+
+Most AI systems rely heavily on cloud services.
+
+**Sonny proves you can build an intelligent, interactive robot that runs entirely offline.**
+
+---
+
+## 📌 Notes
+
+This project is continuously evolving.
+Structure, features, and architecture will improve over time as Sonny grows.
+
+---
+
+## 🔥 If You Like This Project
+
+* ⭐ Star the repo
+* 👀 Follow the progress
+* 🤖 Watch Sonny evolve into a full humanoid system
+
+---
