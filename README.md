@@ -188,6 +188,9 @@ Sonny: "Nice to meet you. I’ll remember you for next time."
 **Robotech83**
 Robotics & Embedded Systems Developer
 
+<p align="center">
+  <img src="assets/sonnylogo.png" width="250">
+</p>
 Building real-world AI systems with a focus on:
 
 * Offline capability
