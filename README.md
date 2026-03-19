@@ -1,4 +1,4 @@
-# 🤖 Sonny OS — Offline Humanoid Robotics Platform
+![Sonny OS Banner](assets/sonny-os-banner.png)
 
 > A fully offline humanoid robotics system built on Raspberry Pi and Arduino, combining voice, vision, memory, and motion into a modular AI-powered robot.
 
