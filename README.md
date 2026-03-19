@@ -1,5 +1,8 @@
 ![Sonny OS Banner](assets/SonnyOS.png)
 
+<p align="center">
+  <img src="assets/sonny-logo.png" width="250">
+</p>
 > A fully offline humanoid robotics system built on Raspberry Pi and Arduino, combining voice, vision, memory, and motion into a modular AI-powered robot.
 
 ![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
@@ -188,9 +191,6 @@ Sonny: "Nice to meet you. I’ll remember you for next time."
 **Robotech83**
 Robotics & Embedded Systems Developer
 
-<p align="center">
-  <img src="assets/sonny-logo.png" width="250">
-</p>
 Building real-world AI systems with a focus on:
 
 * Offline capability
