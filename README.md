@@ -67,17 +67,20 @@ Sonny is actively developed as a **live demo robot** for Maker Labs and portfoli
 
 ## 🎥 Demo & Build
 
-### 🤖 Live Interaction Demo
-![Demo GIF](assetsdemo.gif)
+### 🤖 Video Interaction Demo
 
-*(or video below)*
+
+
+
 
 ### 🛠️ Build Progress
 
 <p align="center">
-  <img src="assets/images/build1.jpg" width="300">
-  <img src="assets/images/build2.jpg" width="300">
-  <img src="assets/images/build3.jpg" width="300">
+  <img src="assets/fullskull.jpg" width="300">
+  <img src="assets/parts.jpg" width="300">
+  <img src="assets/lab.jpg" width="300">
+  <img src="assets/code.jpg" width="300">
+  <img src="assets/engineering.jpg" width="300">
 </p>
 
 ## 🏗️ System Architecture
