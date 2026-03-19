@@ -28,6 +28,19 @@ Explore the full Sonny OS project, including visuals, breakdowns, and future dev
 
 **Sonny OS** is an offline robotics platform designed to demonstrate real-world AI integration without relying on cloud services.
 
+## 🤖 Real Robot. Real System.
+
+Sonny is not a simulation.
+
+This is a physically built humanoid robot that:
+- sees people using computer vision
+- remembers them between sessions
+- speaks and interacts offline
+- controls real hardware through embedded systems
+
+This project represents a full-stack robotics system:
+AI + Vision + Voice + Hardware
+
 The system combines:
 
 * 🎤 Voice interaction (offline)
