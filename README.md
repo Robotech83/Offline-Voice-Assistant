@@ -189,7 +189,7 @@ Sonny: "Nice to meet you. I’ll remember you for next time."
 Robotics & Embedded Systems Developer
 
 <p align="center">
-  <img src="assets/sonnylogo.png" width="250">
+  <img src="assets/sonny-logo.png" width="250">
 </p>
 Building real-world AI systems with a focus on:
 
