@@ -74,7 +74,7 @@ Sonny is actively developed as a **live demo robot** for Maker Labs and portfoli
   <img src="assets/code.jpg" width="300">
   <img src="assets/Engineering.jpg" width="300">
   <img src="assets/chest.jpg" width="300">
-  <img src="assets/me.jpg" width="300">
+  <img src="assets/me.JPG" width="300">
 </p>
 
 ## 🏗️ System Architecture
