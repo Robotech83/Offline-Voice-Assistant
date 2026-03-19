@@ -1,9 +1,14 @@
 ![Sonny OS Banner](assets/SonnyOS.png)
 
 <p align="center">
-  <img src="assets/sonny-logo.png" width="250">
+  <img src="assets/images/sonny-logo.png" width="200">
 </p>
-> A fully offline humanoid robotics system built on Raspberry Pi and Arduino, combining voice, vision, memory, and motion into a modular AI-powered robot.
+
+<h1 align="center">🤖 Sonny OS</h1>
+
+<p align="center">
+Offline Humanoid Robotics Platform
+</p>
 
 ![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python)
 ![Raspberry Pi](https://img.shields.io/badge/Raspberry%20Pi-4-red?logo=raspberrypi)
@@ -37,9 +42,18 @@ This is a physically built humanoid robot that:
 - controls real hardware through embedded systems
 
 This project represents a full-stack robotics system:
-AI + Vision + Voice + Hardware
+Offline AI + Vision + Voice + Hardware
 
-**Sonny OS** is an offline robotics platform designed to demonstrate real-world AI integration without relying on cloud services.
+**Sonny OS** is an offline robotics platform designed to demonstrate real-world AI integration without relying on the Internet and cloud services.
+
+## ⚡ What Makes Sonny Different
+
+- Runs completely offline (no cloud dependency)
+- Combines vision, voice, and memory into one system
+- Built on real hardware, not simulation
+- Designed for live human interaction demos
+
+This isn’t just code — it’s a working robotic system.
 
 The system combines:
 
