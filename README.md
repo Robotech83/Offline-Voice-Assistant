@@ -1,4 +1,4 @@
-![Sonny OS Banner](assets/SonnyOS)
+![Sonny OS Banner](assets/SonnyOS.png)
 
 > A fully offline humanoid robotics system built on Raspberry Pi and Arduino, combining voice, vision, memory, and motion into a modular AI-powered robot.
 
