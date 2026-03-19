@@ -1,7 +1,7 @@
 ![Sonny OS Banner](assets/SonnyOS.png)
 
 <p align="center">
-  <img src="assets/images/sonny-logo.png" width="200">
+  <img src="assets/sonny-logo.png" width="200">
 </p>
 
 <h1 align="center">🤖 Sonny OS</h1>
